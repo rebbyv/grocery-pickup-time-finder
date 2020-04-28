@@ -1,8 +1,8 @@
+// const client = require('./send_message.js')
 const puppeteer = require('puppeteer');
 const fs = require('fs');
 
-
-(async () => {
+module.exports = async () => {
   try {
     var browser = await puppeteer.launch({ headless: false})
 
@@ -32,7 +32,7 @@ const fs = require('fs');
       var dateTimes = [];
       for (let i = 0; i < pickupTimes.length; i++) {
         dateTimes[i] = {
-          date: date.innerText.trim(),
+          date: date.innerText.split('\n').join(', '),
           time: pickupTimes[i].innerText.trim()
         }
       }
@@ -44,6 +44,10 @@ const fs = require('fs');
     fs.writeFile('pickupTimes.json', JSON.stringify(times), (err) => {
       if (err) throw err;
     })
+
+    // var message = `The next available grocery pickup time is ${times[0].date} from ${times[0].time}. Visit www.heb.com to order now.`;
+    // client.sendMsg(message);
+
     console.log('browser closed')
 
   } catch (err) {
@@ -51,4 +55,4 @@ const fs = require('fs');
     await browser.close();
     console.log(error('Browser Closed'))
   }
-})();
+}
