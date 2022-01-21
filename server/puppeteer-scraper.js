@@ -2,7 +2,7 @@
 const puppeteer = require('puppeteer');
 const fs = require('fs');
 
-module.exports = async () => {
+module.exports = async (zipCode) => {
   try {
     var browser = await puppeteer.launch({ headless: false})
 
@@ -10,19 +10,21 @@ module.exports = async () => {
 
     await page.goto('https://heb.com');
 
-    await page.waitForSelector('button.details.curbside-icon');
-    await page.click('button.details.curbside-icon');
+    await page.waitForSelector('a.hv9y8n-0.sc-1szxhe9-0.frpytM');
+    await page.click('a.hv9y8n-0.sc-1szxhe9-0.frpytM');
 
-    await page.waitForSelector('button.change-store-button');
-    await page.click('button.change-store-button');
+    // await page.waitForSelector('button.change-store-button');
+    // await page.click('button.change-store-button');
 
-    await page.waitForSelector('input#change-store-input')
-    await page.focus('input#change-store-input')
-    await page.keyboard.type('78734')
-    await page.click('button.btn.search__submit.btn-primary.btn-primary--blue')
+    await page.waitForSelector('div#change-store-modal___BV_modal_content_');
+    await page.focus('input#change-store-input');
+    await page.keyboard.type(78738);
+    await page.click('button.btn.search__submit.btn-primary.btn-primary--blue');
 
     await page.waitForSelector('li.store');
-    await page.click('button.btn.store__select-button.btn-primary.btn-primary--blue')
+    await page.click('button.btn.store__select-button.btn-primary.btn-primary--blue');
+
+    await page.waitForSelector('span.j2mcac-0.bFsLbF')
 
     await page.waitForSelector('span.picker-time__range', {visible: true});
 
